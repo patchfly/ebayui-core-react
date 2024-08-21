@@ -47,6 +47,21 @@ export const SelectedCheckboxButton: StoryFn<typeof EbayCheckbox> = () => (
     </>
 )
 
+export const MixedCheckboxButton: StoryFn<typeof EbayCheckbox> = () => (
+    <>
+        <p>
+            <EbayCheckbox checked mixed value="123" id="checkbox-21">
+                <EbayLabel>Default</EbayLabel>
+            </EbayCheckbox>
+        </p>
+        <p>
+            <EbayCheckbox checked mixed value="123" id="checkbox-22" size="large">
+                <EbayLabel>Large</EbayLabel>
+            </EbayCheckbox>
+        </p>
+    </>
+)
+
 export const DisabledCheckboxButton: StoryFn<typeof EbayCheckbox> = () => (
     <>
         <p>

@@ -1,10 +1,11 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { composeStory } from '@storybook/react'
-import Meta, { DefaultCheckboxButton, SelectedCheckboxButton, DisabledCheckboxButton, GroupedCheckboxButtons } from './index.stories'
+import Meta, { DefaultCheckboxButton, SelectedCheckboxButton, MixedCheckboxButton, DisabledCheckboxButton, GroupedCheckboxButtons } from './index.stories'
 
 const DefaultCheckboxButtonInstance = composeStory(DefaultCheckboxButton, Meta)
 const SelectedCheckboxButtonInstance = composeStory(SelectedCheckboxButton, Meta)
+const MixedCheckboxButtonInstance = composeStory(MixedCheckboxButton, Meta)
 const DisabledCheckboxButtonInstance = composeStory(DisabledCheckboxButton, Meta)
 const GroupedCheckboxButtonsInstance = composeStory(GroupedCheckboxButtons, Meta)
 
@@ -17,6 +18,13 @@ describe('ebay-checkbox rendering', () => {
 
     it('SelectedCheckboxButton instance', () => {
         render(<SelectedCheckboxButtonInstance />)
+        const checkbox = screen.getAllByRole('checkbox')[0]
+        expect(checkbox).toHaveClass('checkbox__control')
+        expect(checkbox).toHaveAttribute('checked')
+    })
+
+    it('MixedCheckboxButton instance', () => {
+        render(<MixedCheckboxButtonInstance />)
         const checkbox = screen.getAllByRole('checkbox')[0]
         expect(checkbox).toHaveClass('checkbox__control')
         expect(checkbox).toHaveAttribute('checked')

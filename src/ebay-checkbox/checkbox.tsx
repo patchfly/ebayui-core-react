@@ -9,6 +9,7 @@ type Size = 'default' | 'large'
 type InputProps = Omit<ComponentProps<'input'>, 'size' | 'onChange' | 'onFocus' | 'onKeyDown'>
 type EbayCheckboxProps = {
     size?: Size;
+    mixed?: boolean;
     onChange?: EbayChangeEventHandler<HTMLInputElement, { value: string | number, checked: boolean }>;
     onFocus?: EbayFocusEventHandler<HTMLInputElement, { value: string | number, checked: boolean }>;
     onKeyDown?: EbayKeyboardEventHandler<HTMLInputElement, { value: string | number, checked: boolean }>;
@@ -24,6 +25,7 @@ const EbayCheckbox: FC<InputProps & EbayCheckboxProps> = ({
     style,
     checked,
     defaultChecked = false,
+    mixed = false,
     onChange = () => {},
     onFocus = () => {},
     onKeyDown = () => {},
@@ -48,13 +50,14 @@ const EbayCheckbox: FC<InputProps & EbayCheckboxProps> = ({
     const containerClass = classNames('checkbox', className, { 'checkbox--large': size === 'large' })
 
     const iconChecked = size === 'large' ?
-        <EbayIcon name="checkboxChecked24" className="checkbox__checked" /> :
-        <EbayIcon name="checkboxChecked18" className="checkbox__checked" />
+        <EbayIcon name={mixed ? 'checkboxMixed24' : 'checkboxChecked24'} className="checkbox__checked" /> :
+        <EbayIcon name={mixed ? 'checkboxMixed18' : 'checkboxChecked18'} className="checkbox__checked" />
     const iconUnChecked = size === 'large' ?
         <EbayIcon name="checkboxUnchecked24" className="checkbox__unchecked" /> :
         <EbayIcon name="checkboxUnchecked18" className="checkbox__unchecked" />
 
     const ebayLabel = findComponent(children, EbayLabel)
+    const inputChecked = isControlled(checked) ? checked : isChecked
 
     return (
         <>
@@ -64,10 +67,11 @@ const EbayCheckbox: FC<InputProps & EbayCheckboxProps> = ({
                     id={id}
                     className="checkbox__control"
                     type="checkbox"
-                    checked={isControlled(checked) ? checked : isChecked}
+                    checked={inputChecked}
                     onChange={handleChange}
                     onFocus={handleFocus}
                     onKeyDown={handleKeyDown}
+                    aria-checked={inputChecked && mixed ? 'mixed' : inputChecked}
                     ref={inputRef}
                 />
                 <span className="checkbox__icon" hidden>
